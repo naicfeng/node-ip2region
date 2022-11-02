@@ -1,6 +1,6 @@
 import { createDebug, ipv6ToLong } from "./utils";
 import { existsSync, readFileSync } from "fs";
-import { resolve as pathResolve, isAbsolute } from "path";
+import { resolve as pathResolve, isAbsolute, join as pathjoin } from "path";
 import { isIPv6 } from "net";
 import Ipv4ToRegion, { Ipv4ToRegionRes, Ipv4ToRegionResult } from "./ipv4";
 
@@ -47,7 +47,7 @@ export default class Ipv6ToRegion {
   private ipv4?: Ipv4ToRegion;
 
   constructor(dbPath?: string) {
-    const p = dbPath || "../../data/ipv6wry.db";
+    const p = dbPath || pathjoin(__dirname, '../../data/ipv6wry.db');
     this.dbFilePath = isAbsolute(p) ? p : pathResolve(__dirname, p);
     if (!existsSync(this.dbFilePath)) {
       throw new Error("[Ipv6ToRegion] db file not exists : " + this.dbFilePath);

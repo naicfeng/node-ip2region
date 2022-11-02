@@ -2,10 +2,11 @@
 
 import { createDebug, ipv4ToLong } from "./utils";
 import { existsSync, readFileSync } from "fs";
-import { resolve as pathResolve, isAbsolute } from "path";
+import { resolve as pathResolve, isAbsolute, join as pathjoin } from "path";
 import { isIPv4 } from "net";
 
 const debug = createDebug("ipv4");
+
 /**
  * IP 结果
  */
@@ -49,7 +50,7 @@ export default class Ipv4ToRegion {
   private totalBlocks: number;
 
   constructor(dbPath?: string) {
-    const p = dbPath || "../../data/ip2region.db";
+    const p = dbPath || pathjoin(__dirname, '../../data/ip2region.db');
     this.dbFilePath = isAbsolute(p) ? p : pathResolve(__dirname, p);
     if (!existsSync(this.dbFilePath)) {
       throw new Error("[Ipv4ToRegion] db file not exists : " + this.dbFilePath);
